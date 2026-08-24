@@ -1,7 +1,14 @@
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import './header.css'
 
-function Header() {
+function Header({ removeToken }) {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    removeToken();
+    navigate('/');
+  };
 
   return (
     <header>
@@ -13,6 +20,7 @@ function Header() {
           <li><NavLink to="/profile" className="nav-link">Profil</NavLink></li>
           <li><NavLink to="/404" className="nav-link">404</NavLink></li>
         </ul>
+        <button onClick={handleLogout}>Déconnexion</button>
         <hr />
       </nav>
     </header>

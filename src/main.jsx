@@ -7,25 +7,22 @@ import Dashboard from "./components/Dashboard";
 import Profile from "./components/Profile";
 import Error404 from "./components/Error404/Error404";
 import useToken from "./hooks/useToken";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
-  const { token, setToken } = useToken();
+  const { token, setToken, removeToken } = useToken();
   console.log("token =", token);
-
-  if (!token) {
-    return <Login setToken={setToken} />
-  }
 
   return (
     <>
       <StrictMode>
         <BrowserRouter>
           <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
+            <Route element={<Layout removeToken={removeToken} />}>
+              <Route path="/" element={<Login setToken={setToken} />} />
+              <Route path="/dashboard" element={<ProtectedRoute token={token}><Dashboard /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute token={token}><Profile /></ProtectedRoute>} />
               <Route path="*" element={<Error404 />} />
             </Route>
           </Routes>

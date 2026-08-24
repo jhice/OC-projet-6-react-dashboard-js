@@ -1,0 +1,3 @@
+GET http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2025-01-31
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDU2MjU0LCJleHAiOjE3ODcxNDI2NTR9.RnZwscJ1LMaZFTNOIacAuz1U5a1HGtqW8H0h_dpoYHE
+
