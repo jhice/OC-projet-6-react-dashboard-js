@@ -19,7 +19,7 @@ function App() {
       <StrictMode>
         <BrowserRouter>
           <Routes>
-            <Route element={<Layout removeToken={removeToken} />}>
+            <Route element={<Layout removeToken={removeToken} token={token} />}>
               <Route path="/" element={<Login setToken={setToken} />} />
               <Route path="/dashboard" element={<ProtectedRoute token={token}><Dashboard /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute token={token}><Profile /></ProtectedRoute>} />

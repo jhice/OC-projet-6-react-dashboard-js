@@ -1,5 +1,8 @@
+.nav-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .nav-link.active {
   background-color: aquamarine;
   color: #646cff;
-  border-bottom: px solid #646cff;
 }

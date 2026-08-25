@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "./login.css";
+import { useNavigate } from "react-router";
 
 async function loginUser(credentials) {
   return fetch('/login.json', {
@@ -13,10 +14,12 @@ async function loginUser(credentials) {
     .then(data => data.json());
 }
 
-function Login({ setToken }) {
+function Login({ setToken, goTo }) {
 
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -25,6 +28,7 @@ function Login({ setToken }) {
       password
     });
     setToken(token);
+    // useNavigate("/dashboard");
   }
 
   return (
