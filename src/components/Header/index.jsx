@@ -1,7 +1,12 @@
 import { NavLink, useNavigate } from 'react-router'
+import { useContext } from 'react';
+import { LoginContext } from '../../utils/context';
+
 import './header.css'
 
-function Header({ removeToken, token }) {
+function Header() {
+
+  const { token, removeToken } = useContext(LoginContext)
 
   const navigate = useNavigate();
 

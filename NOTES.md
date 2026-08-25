@@ -8,3 +8,4 @@
 
 - comment rediriger après le login ? (useNavigate) souci de hook quand j'essaie de rediriger
 - cookie côté client seul ou back + CSRF ? en l'état cookie client pas plus secure que localStorage
+- ESLint / conventions : pas de ; en fin de ligne ? https://eslint.style/rules/semi

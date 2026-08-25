@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+// import { useNavigate } from "react-router";
+import { LoginContext } from "../../utils/context";
 
 import "./login.css";
-import { useNavigate } from "react-router";
 
 async function loginUser(credentials) {
   return fetch('/login.json', {
@@ -14,12 +15,14 @@ async function loginUser(credentials) {
     .then(data => data.json());
 }
 
-function Login({ setToken, goTo }) {
+function Login() {
+
+  const { setToken } = useContext(LoginContext);
 
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
