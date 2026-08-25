@@ -2,6 +2,7 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
 .nav-link.active {
   background-color: aquamarine;
   color: #646cff;
