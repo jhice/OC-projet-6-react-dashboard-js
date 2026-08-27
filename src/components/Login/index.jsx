@@ -3,16 +3,40 @@ import { useContext, useState } from "react";
 import { LoginContext } from "../../utils/context";
 
 import "./login.css";
+import { useNavigate } from "react-router";
 
 async function loginUser(credentials) {
-  return fetch('/login.json', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(credentials)
-  })
-    .then(data => data.json());
+
+  let token = null
+  let error = null
+
+  try {
+    const response = await fetch('http://localhost:8000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+
+    if (!response.ok) {
+      // 404
+      if (response.status === 404) {
+        throw new Error("Erreur de connexion au serveur")
+      }
+      // 400
+      const data = await response.json();
+      throw new Error(data.message)
+    }
+
+    token = await response.json();
+
+  } catch (err) {
+    // console.log(err)
+    error = err
+  }
+
+  return { token, error }
 }
 
 function Login() {
@@ -21,17 +45,24 @@ function Login() {
 
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const [message, setMessage] = useState("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const token = await loginUser({
+    const { token, error } = await loginUser({
       username,
       password
     });
+    
+    if (error) {
+      setMessage(error.message)
+      return
+    }
+
     setToken(token);
-    // useNavigate("/dashboard");
+    navigate("/dashboard");
   }
 
   return (
@@ -49,6 +80,7 @@ function Login() {
         <div>
           <button type="submit">Submit</button>
         </div>
+        {message ? <p>{message}</p> : ""}
       </form>
     </div>
   )

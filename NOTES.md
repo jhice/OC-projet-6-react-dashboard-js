@@ -6,10 +6,16 @@
 
 ## Questions
 
-- comment rediriger après le login ? (useNavigate) souci de hook quand j'essaie de rediriger
+- ~~comment rediriger après le login ? (useNavigate) souci de hook quand j'essaie de rediriger~~
 - cookie côté client seul ou back + CSRF ? en l'état cookie client pas plus secure que localStorage
 - ESLint / conventions : pas de ; en fin de ligne ? https://eslint.style/rules/semi
 - jusqu'où pousser l'intégration ? (notamment des charts)
 - uniquement version desktop ?
 - gestion des dates du JSON, par semaine depuis janvier 2025 ? librairie de gestion de dates ? à la mano ?
   - les data de l'API ne matchent pas forcément exactement avec les graphes (pas tous les jours d'une semaine par ex.)
+- créer un service/fichier pour traiter le JSON d'entrée (les statistiques) ?
+- mettre des infos du profile dans un Context ?
+- useFetch => le state de data y est délégué ?
+- mixer on submit et le code dans useEffect()
+  - utiliser une fonction externe ?
+- bonus : ajouter un loader ? (à faire sur les projets suivants sinon)

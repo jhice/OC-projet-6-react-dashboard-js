@@ -1,5 +1,5 @@
 import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Login from "./components/Login";
@@ -34,4 +34,10 @@ export function App() {
 
 const root = document.getElementById("root");
 
-ReactDOM.createRoot(root).render(<App />);
+// Check if we already have a root, otherwise create a new one
+// We store it on the window object to persist across HMR updates in development
+if (!window.reactRoot) {
+  window.reactRoot = createRoot(root);
+}
+
+window.reactRoot.render(<App />);

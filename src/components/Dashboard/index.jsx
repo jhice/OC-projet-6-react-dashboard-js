@@ -1,4 +1,5 @@
 import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Pie, PieChart, XAxis, YAxis } from 'recharts';
+import { useFetch } from '../../hooks/useFetch';
 
 const dataKm = [
   {
@@ -79,9 +80,19 @@ const dataGoals = [
 
 function Dashboard() {
 
+  const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2025-01-31`)
+
+  if (error) {
+    return <span>Il y a un problème</span>
+  }
+  
+  if (!data) {
+    return <p>Loading...</p>
+  }
+  
   return (
     <>
-      <h1>Vos dernières performances</h1>
+      <h1>Vos dernières performances ({data?.length})</h1>
       <div style={{ display: "flex", gap: "100px" }}>
         <section>
           <h2>18 km en moyenne</h2>
