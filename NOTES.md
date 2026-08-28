@@ -13,6 +13,7 @@
 ## Questions
 
 - ~~comment rediriger après le login ? (useNavigate) souci de hook quand j'essaie de rediriger~~
+- intégration : 1024 ou 1440 de large (Specs = 1024, Figma = 1440)
 - cookie côté client seul ou back + CSRF ? en l'état cookie client pas plus secure que localStorage
 - ESLint / conventions : pas de ; en fin de ligne ? https://eslint.style/rules/semi
 - gestion des dates du JSON, par semaine depuis janvier 2025 ? librairie de gestion de dates ? à la mano ?

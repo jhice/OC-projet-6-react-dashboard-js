@@ -8,7 +8,6 @@ import Profile from "./components/Profile";
 import Error404 from "./components/Error404/Error404";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { LoginProvider } from "./utils/context";
-import "./main.css"
 
 export function App() {
 
