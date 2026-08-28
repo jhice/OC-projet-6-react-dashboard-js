@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { LoginContext } from '../../utils/context';
 
 import './header.css'
+import logo from "../../assets/images/logo-icon.png"
 
 function Header() {
 
@@ -24,11 +25,7 @@ function Header() {
     <header className="mx-auto flex h-[96px] mb-[104px] w-[1140px] items-start justify-between">
       <a href="#" className="mt-[38px] flex items-center gap-[5px] no-underline">
         <span className="flex h-[24px] items-center gap-[2px]" aria-hidden="true">
-          <i className="h-[15px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-          <i className="h-[20px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-          <i className="h-[12px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-          <i className="h-[18px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-          <i className="h-[14px] w-[3px] rounded-full bg-[#ff5a52]"></i>
+          <img src={logo} alt="" />
         </span>
         <span className="text-[27px] font-bold tracking-[-1.2px] text-[#1737ee]">
           SPORTSEE

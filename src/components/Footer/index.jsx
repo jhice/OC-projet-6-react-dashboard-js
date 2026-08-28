@@ -1,3 +1,5 @@
+import logo from "../../assets/images/logo-icon.png"
+
 function Footer() {
 
   return (
@@ -16,10 +18,7 @@ function Footer() {
           </a>
 
           <span className="flex items-center gap-[2px]" aria-hidden="true">
-            <i className="h-[14px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-            <i className="h-[19px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-            <i className="h-[12px] w-[3px] rounded-full bg-[#ff5a52]"></i>
-            <i className="h-[17px] w-[3px] rounded-full bg-[#ff5a52]"></i>
+            <img src={logo} alt="" />
           </span>
         </div>
       </div>

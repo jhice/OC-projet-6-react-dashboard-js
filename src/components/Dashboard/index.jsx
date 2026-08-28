@@ -91,123 +91,127 @@ function Dashboard() {
   }
 
   return (
-    <div>
-      <section class="mt-[95px] flex h-[168px] items-center rounded-[18px] bg-white px-[53px]">
-        <img src=""
-          alt="Photo de profil"
-          class="h-[118px] w-[104px] rounded-[9px] object-cover" />
-        <div class="ml-[38px]">
-          <h1 class="m-0 text-[22px] font-normal leading-[1.1]">Clara Dupont</h1>
-          <p class="mt-[6px] text-[15px] text-[#777]">Membre depuis le 14 juin 2023</p>
-        </div>
-
-        <div class="ml-auto flex items-center gap-[17px]">
-          <span class="text-[14px] text-[#777]">Distance totale parcourue</span>
-          <div class="flex h-[91px] w-[183px] items-center justify-center rounded-[9px] bg-[#1737ee]">
-            <span class="text-[22px] font-medium text-white"></span>
+    <>
+      <div className="mx-auto flex flex-col w-[1140px] justify-between">
+        <section class="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
+          <img src="https://picsum.photos/id/177/200/200"
+            alt="Photo de profil"
+            class="h-[118px] w-[104px] rounded-[9px] object-cover" />
+          <div class="ml-[38px]">
+            <h1 class="m-0 text-[22px] font-normal leading-[1.1]">Clara Dupont</h1>
+            <p class="mt-[6px] text-[15px] text-[#777]">Membre depuis le 1er janvier 1970</p>
           </div>
-        </div>
-      </section>
 
-      <section class="mt-[121px]">
-        <h2 class="m-0 text-[21px] font-normal">Vos dernières performances</h2>
-
-        <div class="mt-[31px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
-
-          <article class="h-[389px] rounded-[9px] bg-white px-[40px] pt-[27px]">
-            <div class="flex items-start justify-between">
-              <div>
-                <h3 class="m-0 text-[21px] font-normal text-[#1737ee]">18km en moyenne</h3>
-                <p class="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
-              </div>
-              <div class="flex items-center gap-[7px] pt-[1px] text-[11px]">
-                <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
-                <span>28 mai - 25 juin</span>
-                <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
-              </div>
+          <div class="ml-auto flex items-center gap-[17px]">
+            <span class="text-[14px] text-[#777]">Distance totale parcourue</span>
+            <div class="flex h-[91px] w-[183px] items-center justify-center rounded-[9px] bg-[#1737ee]">
+              <p className="mt-[9px] m-0 text-[23px] text-white">
+                999<span className="ml-[5px] text-[15px]">km</span>
+              </p>
             </div>
-            <BarChart style={{ width: "330px", height: "307px", fontSize: "12px" }} responsive data={dataKm}>
-              <CartesianGrid stroke="#f5f5f5" />
-              <Bar dataKey="Km" fill="#B6BDFC" barSize={14} radius={14} />
-              <XAxis dataKey="name" margin="10px" />
-              <YAxis width="auto" niceTicks="snap125" />
-              <Legend />
-            </BarChart>
-          </article>
+          </div>
+        </section>
 
-          <article class="h-[389px] rounded-[9px] bg-white px-[40px] pt-[27px]">
-            <div class="flex items-start justify-between">
-              <div>
-                <h3 class="m-0 text-[21px] font-normal text-[#f03218]">163 BPM</h3>
-                <p class="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
+        <section class="mt-[104px]">
+          <h2 class="m-0 text-[21px] font-normal">Vos dernières performances</h2>
+
+          <div class="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
+
+            <article class="rounded-[9px] bg-white p-[32px]">
+              <div class="flex items-start justify-between mb-[24px]">
+                <div>
+                  <h3 class="m-0 text-[21px] font-normal text-[#1737ee]">18km en moyenne</h3>
+                  <p class="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
+                </div>
+                <div class="flex items-center gap-[7px] pt-[1px] text-[11px]">
+                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
+                  <span>28 mai - 25 juin</span>
+                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
+                </div>
               </div>
-              <div class="flex items-center gap-[7px] pt-[1px] text-[11px]">
-                <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
-                <span>28 mai - 04 juin</span>
-                <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
-              </div>
-            </div>
-            <ComposedChart
-              style={{ width: "503px", height: "307px", fontSize: "12px" }}
-              responsive
-              data={dataBpm}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" />
-              <YAxis width="auto" niceTicks="snap125" />
-              <Bar dataKey="minBpm" barSize={14} radius={14} fill="#FCC1B6" />
-              <Bar dataKey="maxBpm" barSize={14} radius={14} fill="#F4320B" />
-              <Line type="monotone" dataKey="averageBpm" stroke="#0B23F4" strokeWidth={3}
-                dot={{ fill: "#F2F3FF", strokeWidth: 2, r: 5 }} activeDot={false} />
-              <Legend />
-            </ComposedChart>
-          </article>
-        </div>
-      </section>
-
-      <section class="mt-[74px]">
-        <h2 class="m-0 text-[21px] font-normal">Cette semaine</h2>
-        <p class="mt-[7px] text-[15px] text-[#777]">Du 23/06/2025 au 30/06/2025</p>
-
-        <div class="mt-[31px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
-
-          <article class="h-[343px] rounded-[9px] bg-white px-[40px] pt-[27px]">
-            <h3 class="m-0 text-[21px] font-normal text-[#1737ee]">
-              <strong>x4</strong> <span class="text-[14px] text-[#aeb9ff]">sur objectif de 6</span>
-            </h3>
-            <p class="mt-[8px] text-[13px] text-[#777]">Courses hebdomadaire réalisées</p>
-            <PieChart
-              style={{ width: '306px', height: '190px', padding: "50px" }}
-              responsive
-            >
-              <Pie
-                data={dataGoals}
-                dataKey="value"
-                cx="50%"
-                cy="50%"
-                innerRadius="40%"
-                outerRadius="83%"
-                stroke="none"
-                labelLine={false}
-                label={CustomizedLabel}
-                isAnimationActive={true}
-              />
-            </PieChart>
-          </article>
-
-          <div class="flex flex-col gap-[16px]">
-            <article class="h-[82px] rounded-[9px] bg-white px-[30px] py-[21px]">
-              <p class="m-0 text-[13px] text-[#777]">Durée d’activité</p>
-              <p class="mt-[13px] m-0 text-[20px] text-[#1737ee]">140 <span class="text-[14px] text-[#aeb9ff]">minutes</span></p>
+              <BarChart style={{ width: "330px", height: "307px", fontSize: "12px" }} responsive data={dataKm}>
+                <CartesianGrid stroke="#f5f5f5" />
+                <Bar dataKey="Km" fill="#B6BDFC" barSize={14} radius={14} />
+                <XAxis dataKey="name" margin="10px" />
+                <YAxis width="auto" niceTicks="snap125" />
+                <Legend />
+              </BarChart>
             </article>
-            <article class="h-[82px] rounded-[9px] bg-white px-[30px] py-[21px]">
-              <p class="m-0 text-[13px] text-[#777]">Distance</p>
-              <p class="mt-[13px] m-0 text-[20px] text-[#f03218]">21.7 <span class="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
+
+            <article class="rounded-[9px] bg-white p-[32px]">
+              <div class="flex items-start justify-between mb-[24px]">
+                <div>
+                  <h3 class="m-0 text-[21px] font-normal text-[#f03218]">163 BPM</h3>
+                  <p class="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
+                </div>
+                <div class="flex items-center gap-[7px] pt-[1px] text-[11px]">
+                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
+                  <span>28 mai - 04 juin</span>
+                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
+                </div>
+              </div>
+              <ComposedChart
+                style={{ width: "503px", height: "307px", fontSize: "12px" }}
+                responsive
+                data={dataBpm}
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <XAxis dataKey="name" scale="band" />
+                <YAxis width="auto" niceTicks="snap125" />
+                <Bar dataKey="minBpm" barSize={14} radius={14} fill="#FCC1B6" />
+                <Bar dataKey="maxBpm" barSize={14} radius={14} fill="#F4320B" />
+                <Line type="monotone" dataKey="averageBpm" stroke="#0B23F4" strokeWidth={3}
+                  dot={{ fill: "#F2F3FF", strokeWidth: 2, r: 5 }} activeDot={false} />
+                <Legend />
+              </ComposedChart>
             </article>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+
+        <section class="mt-[64px] mb-[120px]">
+          <h2 class="m-0 text-[21px] font-normal">Cette semaine</h2>
+          <p class="mt-[7px] text-[15px] text-[#777]">Du 23/06/2025 au 30/06/2025</p>
+
+          <div class="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
+
+            <article class="h-[343px] rounded-[9px] bg-white p-[32px]">
+              <h3 class="m-0 text-[21px] font-normal text-[#1737ee]">
+                <strong>x4</strong> <span class="text-[14px] text-[#aeb9ff]">sur objectif de 6</span>
+              </h3>
+              <p class="mt-[8px] mb-[24px] text-[13px] text-[#777]">Courses hebdomadaire réalisées</p>
+              <PieChart
+                style={{ width: '306px', height: '190px' }}
+                responsive
+              >
+                <Pie
+                  data={dataGoals}
+                  dataKey="value"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius="40%"
+                  outerRadius="83%"
+                  stroke="none"
+                  labelLine={false}
+                  label={CustomizedLabel}
+                  isAnimationActive={true}
+                />
+              </PieChart>
+            </article>
+
+            <div class="flex flex-col gap-[16px]">
+              <article class="rounded-[9px] bg-white px-[30px] py-[21px]">
+                <p class="m-0 text-[13px] text-[#777]">Durée d’activité</p>
+                <p class="mt-[10px] m-0 text-[20px] text-[#1737ee]">140 <span class="text-[14px] text-[#aeb9ff]">minutes</span></p>
+              </article>
+              <article class="rounded-[9px] bg-white px-[30px] py-[21px]">
+                <p class="m-0 text-[13px] text-[#777]">Distance</p>
+                <p class="mt-[10px] m-0 text-[20px] text-[#f03218]">21.7 <span class="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div >
+    </>
   )
 }
 
