@@ -1,4 +1,4 @@
-import logo from "../../assets/images/logo-icon.png"
+import logo from "../../assets/images/logo-icon.png";
 
 function Footer() {
 
@@ -23,7 +23,7 @@ function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

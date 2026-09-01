@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import useToken from "../hooks/useToken";
 
-const LoginContext = createContext()
+const LoginContext = createContext();
 
 const LoginProvider = ({ children }) => {
 
@@ -11,7 +11,7 @@ const LoginProvider = ({ children }) => {
         <LoginContext.Provider value={{ token, setToken, removeToken }}>
             {children}
         </LoginContext.Provider>
-    )
-}
+    );
+};
 
-export { LoginContext, LoginProvider }
+export { LoginContext, LoginProvider };

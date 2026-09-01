@@ -1,13 +1,13 @@
-import { NavLink, useNavigate } from 'react-router'
+import { NavLink, useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { LoginContext } from '../../utils/context';
 
-import './header.css'
-import logo from "../../assets/images/logo-icon.png"
+import './header.css';
+import logo from "../../assets/images/logo-icon.png";
 
 function Header() {
 
-  const { token, removeToken } = useContext(LoginContext)
+  const { token, removeToken } = useContext(LoginContext);
 
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function Header() {
 
   if (!token) {
     // pas de menu sur la home (Login)
-    return
+    return;
   }
 
   return (
@@ -40,7 +40,7 @@ function Header() {
         <a href="" className="text-[#1737ee] no-underline" onClick={handleLogout}>Se déconnecter</a>
       </nav>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
