@@ -34,8 +34,8 @@ function Header() {
 
       <nav className="mt-[28px] flex h-[50px] w-[500px] items-center justify-center gap-[43px] rounded-full bg-white text-[14px]">
         <NavLink to="/dashboard" className="nav-link text-[#171717] no-underline hover:text-[#1737ee]">Tableau de bord</NavLink>
-        <NavLink to="/profile" className="nav-link text-[#171717] no-underline">Profil</NavLink>
-        <NavLink to="/404" className="nav-link">404</NavLink>
+        <NavLink to="/profile" className="nav-link text-[#171717] no-underline hover:text-[#1737ee]">Profil</NavLink>
+        <NavLink to="/404" className="nav-link text-[#171717] no-underline hover:text-[#1737ee]">404</NavLink>
         <span className="h-[18px] w-px bg-[#8e9cff]"></span>
         <a href="" className="text-[#1737ee] no-underline" onClick={handleLogout}>Se déconnecter</a>
       </nav>

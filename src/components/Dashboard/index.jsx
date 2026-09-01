@@ -93,18 +93,18 @@ function Dashboard() {
   return (
     <>
       <div className="mx-auto flex flex-col w-[1140px] justify-between">
-        <section class="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
+        <section className="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
           <img src="https://picsum.photos/id/177/200/200"
             alt="Photo de profil"
-            class="h-[118px] w-[104px] rounded-[9px] object-cover" />
-          <div class="ml-[38px]">
-            <h1 class="m-0 text-[22px] font-normal leading-[1.1]">Clara Dupont</h1>
-            <p class="mt-[6px] text-[15px] text-[#777]">Membre depuis le 1er janvier 1970</p>
+            className="h-[118px] w-[104px] rounded-[9px] object-cover" />
+          <div className="ml-[38px]">
+            <h1 className="m-0 text-[22px] font-normal leading-[1.1]">Clara Dupont</h1>
+            <p className="mt-[6px] text-[15px] text-[#777]">Membre depuis le 1er janvier 1970</p>
           </div>
 
-          <div class="ml-auto flex items-center gap-[17px]">
-            <span class="text-[14px] text-[#777]">Distance totale parcourue</span>
-            <div class="flex h-[91px] w-[183px] items-center justify-center rounded-[9px] bg-[#1737ee]">
+          <div className="ml-auto flex items-center gap-[17px]">
+            <span className="text-[14px] text-[#777]">Distance totale parcourue</span>
+            <div className="flex h-[91px] w-[183px] items-center justify-center rounded-[9px] bg-[#1737ee]">
               <p className="mt-[9px] m-0 text-[23px] text-white">
                 999<span className="ml-[5px] text-[15px]">km</span>
               </p>
@@ -112,21 +112,21 @@ function Dashboard() {
           </div>
         </section>
 
-        <section class="mt-[104px]">
-          <h2 class="m-0 text-[21px] font-normal">Vos dernières performances</h2>
+        <section className="mt-[104px]">
+          <h2 className="m-0 text-[21px] font-normal">Vos dernières performances</h2>
 
-          <div class="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
+          <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
 
-            <article class="rounded-[9px] bg-white p-[32px]">
-              <div class="flex items-start justify-between mb-[24px]">
+            <article className="rounded-[9px] bg-white p-[32px]">
+              <div className="flex items-start justify-between mb-[24px]">
                 <div>
-                  <h3 class="m-0 text-[21px] font-normal text-[#1737ee]">18km en moyenne</h3>
-                  <p class="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
+                  <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">18km en moyenne</h3>
+                  <p className="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
                 </div>
-                <div class="flex items-center gap-[7px] pt-[1px] text-[11px]">
-                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
+                <div className="flex items-center gap-[7px] pt-[1px] text-[11px]">
+                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
                   <span>28 mai - 25 juin</span>
-                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
+                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
                 </div>
               </div>
               <BarChart style={{ width: "330px", height: "307px", fontSize: "12px" }} responsive data={dataKm}>
@@ -138,16 +138,16 @@ function Dashboard() {
               </BarChart>
             </article>
 
-            <article class="rounded-[9px] bg-white p-[32px]">
-              <div class="flex items-start justify-between mb-[24px]">
+            <article className="rounded-[9px] bg-white p-[32px]">
+              <div className="flex items-start justify-between mb-[24px]">
                 <div>
-                  <h3 class="m-0 text-[21px] font-normal text-[#f03218]">163 BPM</h3>
-                  <p class="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
+                  <h3 className="m-0 text-[21px] font-normal text-[#f03218]">163 BPM</h3>
+                  <p className="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
                 </div>
-                <div class="flex items-center gap-[7px] pt-[1px] text-[11px]">
-                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
+                <div className="flex items-center gap-[7px] pt-[1px] text-[11px]">
+                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
                   <span>28 mai - 04 juin</span>
-                  <button class="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
+                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
                 </div>
               </div>
               <ComposedChart
@@ -168,17 +168,17 @@ function Dashboard() {
           </div>
         </section>
 
-        <section class="mt-[64px] mb-[120px]">
-          <h2 class="m-0 text-[21px] font-normal">Cette semaine</h2>
-          <p class="mt-[7px] text-[15px] text-[#777]">Du 23/06/2025 au 30/06/2025</p>
+        <section className="mt-[64px] mb-[120px]">
+          <h2 className="m-0 text-[21px] font-normal">Cette semaine</h2>
+          <p className="mt-[7px] text-[15px] text-[#777]">Du 23/06/2025 au 30/06/2025</p>
 
-          <div class="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
+          <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
 
-            <article class="h-[343px] rounded-[9px] bg-white p-[32px]">
-              <h3 class="m-0 text-[21px] font-normal text-[#1737ee]">
-                <strong>x4</strong> <span class="text-[14px] text-[#aeb9ff]">sur objectif de 6</span>
+            <article className="h-[343px] rounded-[9px] bg-white p-[32px]">
+              <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">
+                <strong>x4</strong> <span className="text-[14px] text-[#aeb9ff]">sur objectif de 6</span>
               </h3>
-              <p class="mt-[8px] mb-[24px] text-[13px] text-[#777]">Courses hebdomadaire réalisées</p>
+              <p className="mt-[8px] mb-[24px] text-[13px] text-[#777]">Courses hebdomadaire réalisées</p>
               <PieChart
                 style={{ width: '306px', height: '190px' }}
                 responsive
@@ -198,14 +198,14 @@ function Dashboard() {
               </PieChart>
             </article>
 
-            <div class="flex flex-col gap-[16px]">
-              <article class="rounded-[9px] bg-white px-[30px] py-[21px]">
-                <p class="m-0 text-[13px] text-[#777]">Durée d’activité</p>
-                <p class="mt-[10px] m-0 text-[20px] text-[#1737ee]">140 <span class="text-[14px] text-[#aeb9ff]">minutes</span></p>
+            <div className="flex flex-col gap-[16px]">
+              <article className="rounded-[9px] bg-white px-[30px] py-[21px]">
+                <p className="m-0 text-[13px] text-[#777]">Durée d’activité</p>
+                <p className="mt-[10px] m-0 text-[20px] text-[#1737ee]">140 <span className="text-[14px] text-[#aeb9ff]">minutes</span></p>
               </article>
-              <article class="rounded-[9px] bg-white px-[30px] py-[21px]">
-                <p class="m-0 text-[13px] text-[#777]">Distance</p>
-                <p class="mt-[10px] m-0 text-[20px] text-[#f03218]">21.7 <span class="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
+              <article className="rounded-[9px] bg-white px-[30px] py-[21px]">
+                <p className="m-0 text-[13px] text-[#777]">Distance</p>
+                <p className="mt-[10px] m-0 text-[20px] text-[#f03218]">21.7 <span className="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
               </article>
             </div>
           </div>

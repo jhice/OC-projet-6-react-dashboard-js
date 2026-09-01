@@ -2,15 +2,12 @@ import { Link } from "react-router";
 
 function Error404() {
   return (
-    <div className="page">
-      <div className="error-container">
-        <h1 className="error-title">404</h1>
-        <h2>Oups 🙈 Cette page n'existe pas</h2>
-        <p>La page que vous cherchez semble introuvable.</p>
-        <Link to="/" className="error-link">
-          Retour à l'accueil
-        </Link>
-      </div>
+    <div className="flex flex-col">
+      <h1 className="text-2xl">Oups 🙈 Cette page n'existe pas</h1>
+      <p className="mt-[1em]">La page que vous cherchez semble introuvable.</p>
+      <Link to="/dashboard" className="mt-[1em] text-[#171717] underline hover:text-[#1737ee]">
+        Retour au dashboard
+      </Link>
     </div>
   )
 }

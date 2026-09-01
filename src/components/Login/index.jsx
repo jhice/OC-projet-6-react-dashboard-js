@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { LoginContext } from "../../utils/context";
 import LoginBg from "../../assets/images/login_bg.jpg"
@@ -39,13 +39,20 @@ async function loginUser(credentials) {
 
 function Login() {
 
-  const { setToken } = useContext(LoginContext);
+  const { token, setToken } = useContext(LoginContext);
 
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
+
+  // si loggué, goto dashboard
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard");
+    }
+  });
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -61,6 +68,10 @@ function Login() {
 
     setToken(token);
     navigate("/dashboard");
+  }
+
+  if (token) {
+    return <p>Redirection...</p>;
   }
 
   return (
@@ -135,8 +146,8 @@ function Login() {
         </section>
 
         <section className="relative flex-1 min-w-0 bg-cover bg-right-top bg-no-repeat" style={{ backgroundImage: "url(" + LoginBg + ")" }} aria-label="Coureurs participant à une course">
-          <div className="absolute bottom-[29px] right-[25px] w-[300px] rounded-full bg-white px-[20px] py-[15px] text-center shadow-[0_1px_5px_rgba(0,0,0,0.08)]">
-            <p className="m-0 text-[13px] leading-[1.2] text-[#1737ee]">
+          <div className="absolute bottom-[69px] right-[25px] w-[310px] rounded-full bg-white px-[20px] py-[15px] text-center shadow-[0_1px_5px_rgba(0,0,0,0.08)]">
+            <p className="m-0 text-[13px] leading-[1.4] text-[#1737ee]">
               Analysez vos performances en un clin d’œil,<br />
               suivez vos progrès et atteignez vos objectifs.
             </p>

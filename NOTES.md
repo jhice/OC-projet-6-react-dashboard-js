@@ -14,13 +14,18 @@
 
 - ~~comment rediriger après le login ? (useNavigate) souci de hook quand j'essaie de rediriger~~
 - intégration : 1024 ou 1440 de large (Specs = 1024, Figma = 1440)
+  - 1024 min
 - cookie côté client seul ou back + CSRF ? en l'état cookie client pas plus secure que localStorage
+  - cookie client ou localStorage
 - ESLint / conventions : pas de ; en fin de ligne ? https://eslint.style/rules/semi
+  - suivre la convention d'entreprise (suivre ma convention)
 - gestion des dates du JSON, par semaine depuis janvier 2025 ? librairie de gestion de dates ? à la mano ?
   - les data de l'API ne matchent pas forcément exactement avec les graphes (pas tous les jours d'une semaine par ex.)
-- créer un service/fichier pour traiter le JSON d'entrée (les statistiques) ?
+  - OUI => créer un service/fichier pour traiter le JSON d'entrée (les statistiques) ?
 - mettre des infos du profile dans un Context ?
+  - oui
 - useFetch => le state de data y est délégué ?
+  - oui
 - mixer on submit et le code dans useEffect()
   - utiliser une fonction externe ?
 - bonus : ajouter un loader
