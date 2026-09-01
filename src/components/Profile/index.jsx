@@ -1,21 +1,21 @@
-import { useFetch } from "../../hooks/useFetch"
+import { useFetch } from "../../hooks/useFetch";
 
 function Profile() {
 
   // le state de data est suivi depuis useEffect() ?
-  const { data, error } = useFetch(`http://localhost:8000/api/user-info`)
+  const { data, error } = useFetch(`http://localhost:8000/api/user-info`);
   // console.log(data);
 
   if (error) {
-    return <span>Il y a un problème</span>
+    return <span>Il y a un problème</span>;
   }
 
   if (!data) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   return (
-    <>
+    <main className="mx-auto flex w-[1140px] justify-between">
       <section className="w-[500px]">
 
         <article className="flex h-[161px] items-center rounded-[10px] bg-white px-[32px]">
@@ -113,8 +113,8 @@ function Profile() {
 
         </div>
       </section>
-    </>
-  )
+    </main>
+  );
 }
 
-export default Profile
+export default Profile;

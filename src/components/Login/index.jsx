@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { LoginContext } from "../../utils/context";
-import LoginBg from "../../assets/images/login_bg.jpg"
+import LoginBg from "../../assets/images/login_bg.jpg";
 
 async function loginUser(credentials) {
 
-  let token = null
-  let error = null
+  let token = null;
+  let error = null;
 
   try {
     const response = await fetch('http://localhost:8000/api/login', {
@@ -20,21 +20,21 @@ async function loginUser(credentials) {
     if (!response.ok) {
       // 404
       if (response.status === 404) {
-        throw new Error("Erreur de connexion au serveur")
+        throw new Error("Erreur de connexion au serveur");
       }
       // 400
       const data = await response.json();
-      throw new Error(data.message)
+      throw new Error(data.message);
     }
 
     token = await response.json();
 
   } catch (err) {
     // console.log(err)
-    error = err
+    error = err;
   }
 
-  return { token, error }
+  return { token, error };
 }
 
 function Login() {
@@ -62,20 +62,20 @@ function Login() {
     });
 
     if (error) {
-      setMessage(error.message)
-      return
+      setMessage(error.message);
+      return;
     }
 
     setToken(token);
     navigate("/dashboard");
-  }
+  };
 
   if (token) {
     return <p>Redirection...</p>;
   }
 
   return (
-    <>
+    <main className="mx-auto flex w-[1440px] justify-between">
       <div className="flex min-h-screen w-full">
 
         <section className="relative min-w-[632px] bg-[#f1f3ff]">
@@ -155,8 +155,8 @@ function Login() {
         </section>
 
       </div>
-    </>
-  )
+    </main>
+  );
 }
 
-export default Login
+export default Login;

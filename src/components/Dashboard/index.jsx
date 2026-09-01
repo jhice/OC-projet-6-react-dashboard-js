@@ -76,22 +76,22 @@ const dataGoals = [
     value: 2,
     fill: "#B6BDFC",
   },
-]
+];
 
 function Dashboard() {
 
-  const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2025-01-31`)
+  const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2025-01-31`);
 
   if (error) {
-    return <span>Il y a un problème</span>
+    return <span>Il y a un problème</span>;
   }
 
   if (!data) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   return (
-    <>
+    <main className="mx-auto flex w-[1140px] justify-between">
       <div className="mx-auto flex flex-col w-[1140px] justify-between">
         <section className="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
           <img src="https://picsum.photos/id/177/200/200"
@@ -211,8 +211,8 @@ function Dashboard() {
           </div>
         </section>
       </div >
-    </>
-  )
+    </main>
+  );
 }
 
 // Source - https://stackoverflow.com/a/45812427
@@ -225,7 +225,7 @@ const CustomizedLabel = ({ x, y, label, value, fill }) => {
       <circle r="4" cx={x - 30} cy={y + 1} fill={fill} />
       <text x={x} y={y} dy={5} fill="#707070" fontSize={10} textAnchor="middle"> {value} {label}</text>
     </>
-  )
+  );
 };
 
-export default Dashboard
+export default Dashboard;
