@@ -4,6 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 import {
   toKmData, toHeartRateData, toGoalsData, WEEKLY_GOAL,
   startOfWeek, addDays, getReferenceDate, getKmRangeLabel, getWeekRangeLabel,
+  getWeekStats,
 } from '../../services/activity';
 
 // point de départ des widgets de dates des 2 premiers graphes
@@ -30,6 +31,15 @@ function Dashboard() {
   const dataBpm = toHeartRateData(data, { weekStart: bpmWeekStart });
   const dataGoals = toGoalsData(data);
   const goalsCompleted = dataGoals[0].value;
+  const weekStats = getWeekStats(data);
+
+  // moyennes affichées dans les en-têtes, calculées sur ce qui est
+  // effectivement affiché dans chaque graphe (donc sensibles à la pagination)
+  const avgKm = Math.round(dataKm.reduce((sum, d) => sum + d.Km, 0) / dataKm.length);
+  const bpmAverages = dataBpm.map((d) => d.averageBpm).filter((v) => v != null);
+  const avgBpm = bpmAverages.length
+    ? Math.round(bpmAverages.reduce((sum, v) => sum + v, 0) / bpmAverages.length)
+    : null;
 
   // on ne peut pas remonter avant le 1er janvier 2025, ni dépasser la semaine
   // de la session la plus récente disponible dans les données chargées
@@ -70,7 +80,7 @@ function Dashboard() {
             <article className="rounded-[9px] bg-white p-[32px]">
               <div className="flex items-start justify-between mb-[24px]">
                 <div>
-                  <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">18km en moyenne</h3>
+                  <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">{avgKm}km en moyenne</h3>
                   <p className="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
                 </div>
                 <div className="flex items-center gap-[7px] pt-[1px] text-[11px] whitespace-nowrap">
@@ -101,7 +111,7 @@ function Dashboard() {
             <article className="rounded-[9px] bg-white p-[32px]">
               <div className="flex items-start justify-between mb-[24px]">
                 <div>
-                  <h3 className="m-0 text-[21px] font-normal text-[#f03218]">163 BPM</h3>
+                  <h3 className="m-0 text-[21px] font-normal text-[#f03218]">{avgBpm ?? '–'} BPM</h3>
                   <p className="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
                 </div>
                 <div className="flex items-center gap-[7px] pt-[1px] text-[11px] whitespace-nowrap">
@@ -171,11 +181,11 @@ function Dashboard() {
             <div className="flex flex-col gap-[16px]">
               <article className="rounded-[9px] bg-white px-[30px] py-[21px]">
                 <p className="m-0 text-[13px] text-[#777]">Durée d’activité</p>
-                <p className="mt-[10px] m-0 text-[20px] text-[#1737ee]">140 <span className="text-[14px] text-[#aeb9ff]">minutes</span></p>
+                <p className="mt-[10px] m-0 text-[20px] text-[#1737ee]">{weekStats.duration} <span className="text-[14px] text-[#aeb9ff]">minutes</span></p>
               </article>
               <article className="rounded-[9px] bg-white px-[30px] py-[21px]">
                 <p className="m-0 text-[13px] text-[#777]">Distance</p>
-                <p className="mt-[10px] m-0 text-[20px] text-[#f03218]">21.7 <span className="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
+                <p className="mt-[10px] m-0 text-[20px] text-[#f03218]">{weekStats.distance} <span className="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
               </article>
             </div>
           </div>

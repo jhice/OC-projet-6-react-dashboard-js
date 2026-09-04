@@ -137,23 +137,37 @@ export function toHeartRateData(sessions, { weekStart } = {}) {
   });
 }
 
+/** Sessions de la semaine de la dernière session (« cette semaine »). */
+function getCurrentWeekSessions(sessions) {
+  if (!sessions?.length) return [];
+  const weekStart = startOfWeek(getReferenceDate(sessions));
+  return sessions.filter((s) => isInWeek(parseDate(s.date), weekStart));
+}
+
 /**
  * dataGoals — courses réalisées vs restantes sur la semaine de la dernière
  * session, par rapport à WEEKLY_GOAL.
  * -> [{ label: "réalisés", value, fill }, { label: "restants", value, fill }]
  */
 export function toGoalsData(sessions) {
-  const weekStart = sessions?.length
-    ? startOfWeek(getReferenceDate(sessions))
-    : null;
-
-  const done = weekStart
-    ? sessions.filter((s) => isInWeek(parseDate(s.date), weekStart)).length
-    : 0;
+  const done = getCurrentWeekSessions(sessions).length;
 
   return [
     { label: "réalisés", value: Math.min(done, WEEKLY_GOAL), fill: "#0B23F4" },
     { label: "restants", value: Math.max(WEEKLY_GOAL - done, 0), fill: "#B6BDFC" },
   ];
+}
+
+/**
+ * Durée (min) et distance (km) cumulées sur la semaine de la dernière
+ * session (« cette semaine », même semaine que toGoalsData).
+ * -> { duration: 140, distance: 21.7 }
+ */
+export function getWeekStats(sessions) {
+  const weekSessions = getCurrentWeekSessions(sessions);
+  return {
+    duration: weekSessions.reduce((sum, s) => sum + s.duration, 0),
+    distance: round1(weekSessions.reduce((sum, s) => sum + s.distance, 0)),
+  };
 }
 
