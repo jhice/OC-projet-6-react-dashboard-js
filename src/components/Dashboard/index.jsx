@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Pie, PieChart, XAxis, YAxis } from 'recharts';
 import { useFetch } from '../../hooks/useFetch';
+import { LoginContext } from '../../utils/context';
 import {
   toKmData, toHeartRateData, toGoalsData, WEEKLY_GOAL,
   startOfWeek, addDays, getReferenceDate, getKmRangeLabel, getWeekRangeLabel,
@@ -12,6 +13,7 @@ const INITIAL_WEEK_START = startOfWeek(new Date(2025, 0, 1));
 
 function Dashboard() {
 
+  const { profile } = useContext(LoginContext);
   const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2026-12-31`);
 
   // fenêtre affichée par chaque graphe : le lundi de sa semaine la plus récente
@@ -22,7 +24,7 @@ function Dashboard() {
     return <span>Il y a un problème</span>;
   }
 
-  if (!data) {
+  if (!data || !profile) {
     return <p>Loading...</p>;
   }
 
@@ -54,19 +56,20 @@ function Dashboard() {
     <main className="mx-auto flex w-[1140px] justify-between">
       <div className="mx-auto flex flex-col w-[1140px] justify-between">
         <section className="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
-          <img src="https://picsum.photos/id/177/200/200"
-            alt="Photo de profil"
+          <img
+            src={profile.profilePicture}
+            alt={`Photo de profil de ${profile.firstName} ${profile.lastName}`}
             className="h-[118px] w-[104px] rounded-[9px] object-cover" />
           <div className="ml-[38px]">
-            <h1 className="m-0 text-[22px] font-normal leading-[1.1]">Clara Dupont</h1>
-            <p className="mt-[6px] text-[15px] text-[#777]">Membre depuis le 1er janvier 1970</p>
+            <h1 className="m-0 text-[22px] font-normal leading-[1.1]">{profile.firstName} {profile.lastName}</h1>
+            <p className="mt-[6px] text-[15px] text-[#777]">Membre depuis le {profile.createdAt}</p>
           </div>
 
           <div className="ml-auto flex items-center gap-[17px]">
             <span className="text-[14px] text-[#777]">Distance totale parcourue</span>
             <div className="flex h-[91px] w-[183px] items-center justify-center rounded-[9px] bg-[#1737ee]">
               <p className="mt-[9px] m-0 text-[23px] text-white">
-                999<span className="ml-[5px] text-[15px]">km</span>
+                {profile.totalDistance}<span className="ml-[5px] text-[15px]">km</span>
               </p>
             </div>
           </div>

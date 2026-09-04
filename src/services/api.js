@@ -71,9 +71,9 @@ export function login(credentials) {
   return request("/api/login", { method: "POST", body: credentials });
 }
 
-// export function getUserInfo(token) {
-//   return request("/api/user-info");
-// }
+export function getUserInfo(token) {
+  return request("/api/user-info", { token });
+}
 
 // export function getUserActivity({ startWeek, endWeek, token }) {
 //   return request(
