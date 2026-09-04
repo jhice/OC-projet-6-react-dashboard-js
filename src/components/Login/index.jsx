@@ -1,41 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { LoginContext } from "../../utils/context";
+import { login } from "../../services/api";
 import LoginBg from "../../assets/images/login_bg.jpg";
-
-async function loginUser(credentials) {
-
-  let token = null;
-  let error = null;
-
-  try {
-    const response = await fetch('http://localhost:8000/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    });
-
-    if (!response.ok) {
-      // 404
-      if (response.status === 404) {
-        throw new Error("Erreur de connexion au serveur");
-      }
-      // 400
-      const data = await response.json();
-      throw new Error(data.message);
-    }
-
-    token = await response.json();
-
-  } catch (err) {
-    // console.log(err)
-    error = err;
-  }
-
-  return { token, error };
-}
 
 function Login() {
 
@@ -56,18 +23,13 @@ function Login() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const { token, error } = await loginUser({
-      username,
-      password
-    });
-
-    if (error) {
-      setMessage(error.message);
-      return;
+    try {
+      const token = await login({ username, password });
+      setToken(token);
+      navigate("/dashboard");
+    } catch (err) {
+      setMessage(err.message);
     }
-
-    setToken(token);
-    navigate("/dashboard");
   };
 
   if (token) {

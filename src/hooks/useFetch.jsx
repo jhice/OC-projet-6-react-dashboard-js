@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useToken from './useToken';
+import { request } from '../services/api';
 
 export function useFetch(url) {
 
@@ -9,25 +10,17 @@ export function useFetch(url) {
 
   useEffect(() => {
     if (!url) return;
-    async function fetchData() {
-      const init = {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        }
-      };
-      try {
-        console.log("API call to", url);
-        const response = await fetch(url, init);
-        const data = await response.json();
-        // mise à jour du state déplacée ici ?
-        setData(data);
-      } catch (err) {
+
+    request(url, { token })
+      .then((result) => {
+        setData(result);
+      })
+      .catch((err) => {
         console.log(err);
         setError(true);
-      }
-    }
-    fetchData();
-  }, [url, token]); // <= dépendance, si url change, useFetch est rappelée
+      });
+
+  }, [url, token]); // <= si url change, useFetch relance la requête
 
   return { data, error };
 }
