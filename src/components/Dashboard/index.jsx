@@ -1,86 +1,21 @@
+import { useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Pie, PieChart, XAxis, YAxis } from 'recharts';
 import { useFetch } from '../../hooks/useFetch';
+import {
+  toKmData, toHeartRateData, toGoalsData, WEEKLY_GOAL,
+  startOfWeek, addDays, getReferenceDate, getKmRangeLabel, getWeekRangeLabel,
+} from '../../services/activity';
 
-const dataKm = [
-  {
-    name: 'S1',
-    Km: 20,
-  },
-  {
-    name: 'S2',
-    Km: 25,
-  },
-  {
-    name: 'S3',
-    Km: 15,
-  },
-  {
-    name: 'S4',
-    Km: 30,
-  },
-];
-
-const dataBpm = [
-  {
-    name: 'Lun',
-    minBpm: 140,
-    maxBpm: 178,
-    averageBpm: 163,
-  },
-  {
-    name: 'Mar',
-    minBpm: 148,
-    maxBpm: 184,
-    averageBpm: 171,
-  },
-  {
-    name: 'Mer',
-    minBpm: 140,
-    maxBpm: 176,
-    averageBpm: 163,
-  },
-  {
-    name: 'Jeu',
-    minBpm: 138,
-    maxBpm: 178,
-    averageBpm: 162,
-  },
-  {
-    name: 'Ven',
-    minBpm: 141,
-    maxBpm: 177,
-    averageBpm: 165,
-  },
-  {
-    name: 'Sam',
-    minBpm: 143,
-    maxBpm: 179,
-    averageBpm: 166,
-  },
-  {
-    name: 'Dim',
-    minBpm: 146,
-    maxBpm: 183,
-    averageBpm: 170,
-  },
-];
-
-const dataGoals = [
-  {
-    label: 'réalisés',
-    value: 4,
-    fill: "#0B23F4",
-  },
-  {
-    label: 'restants',
-    value: 2,
-    fill: "#B6BDFC",
-  },
-];
+// point de départ des widgets de dates des 2 premiers graphes
+const INITIAL_WEEK_START = startOfWeek(new Date(2025, 0, 1));
 
 function Dashboard() {
 
-  const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2025-01-31`);
+  const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2026-12-31`);
+
+  // fenêtre affichée par chaque graphe : le lundi de sa semaine la plus récente
+  const [kmWindowEnd, setKmWindowEnd] = useState(INITIAL_WEEK_START);
+  const [bpmWeekStart, setBpmWeekStart] = useState(INITIAL_WEEK_START);
 
   if (error) {
     return <span>Il y a un problème</span>;
@@ -89,6 +24,21 @@ function Dashboard() {
   if (!data) {
     return <p>Loading...</p>;
   }
+
+  // data = tableau de sessions (cf. public/activity_sessions.json)
+  const dataKm = toKmData(data, { windowEnd: kmWindowEnd });
+  const dataBpm = toHeartRateData(data, { weekStart: bpmWeekStart });
+  const dataGoals = toGoalsData(data);
+  const goalsCompleted = dataGoals[0].value;
+
+  // on ne peut pas remonter avant le 1er janvier 2025, ni dépasser la semaine
+  // de la session la plus récente disponible dans les données chargées
+  const latestWeekStart = data.length ? startOfWeek(getReferenceDate(data)) : INITIAL_WEEK_START;
+
+  const goToPrevWeek = (setWindow) => () =>
+    setWindow((current) => (current > INITIAL_WEEK_START ? addDays(current, -7) : current));
+  const goToNextWeek = (setWindow) => () =>
+    setWindow((current) => (current < latestWeekStart ? addDays(current, 7) : current));
 
   return (
     <main className="mx-auto flex w-[1140px] justify-between">
@@ -123,10 +73,20 @@ function Dashboard() {
                   <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">18km en moyenne</h3>
                   <p className="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
                 </div>
-                <div className="flex items-center gap-[7px] pt-[1px] text-[11px]">
-                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
-                  <span>28 mai - 25 juin</span>
-                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
+                <div className="flex items-center gap-[7px] pt-[1px] text-[11px] whitespace-nowrap">
+                  <button
+                    type="button"
+                    onClick={goToPrevWeek(setKmWindowEnd)}
+                    disabled={kmWindowEnd <= INITIAL_WEEK_START}
+                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
+                  >‹</button>
+                  <span>{getKmRangeLabel(kmWindowEnd)}</span>
+                  <button
+                    type="button"
+                    onClick={goToNextWeek(setKmWindowEnd)}
+                    disabled={kmWindowEnd >= latestWeekStart}
+                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
+                  >›</button>
                 </div>
               </div>
               <BarChart style={{ width: "330px", height: "307px", fontSize: "12px" }} responsive data={dataKm}>
@@ -144,10 +104,20 @@ function Dashboard() {
                   <h3 className="m-0 text-[21px] font-normal text-[#f03218]">163 BPM</h3>
                   <p className="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
                 </div>
-                <div className="flex items-center gap-[7px] pt-[1px] text-[11px]">
-                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">‹</button>
-                  <span>28 mai - 04 juin</span>
-                  <button className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555]">›</button>
+                <div className="flex items-center gap-[7px] pt-[1px] text-[11px] whitespace-nowrap">
+                  <button
+                    type="button"
+                    onClick={goToPrevWeek(setBpmWeekStart)}
+                    disabled={bpmWeekStart <= INITIAL_WEEK_START}
+                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
+                  >‹</button>
+                  <span>{getWeekRangeLabel(bpmWeekStart)}</span>
+                  <button
+                    type="button"
+                    onClick={goToNextWeek(setBpmWeekStart)}
+                    disabled={bpmWeekStart >= latestWeekStart}
+                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
+                  >›</button>
                 </div>
               </div>
               <ComposedChart
@@ -176,7 +146,7 @@ function Dashboard() {
 
             <article className="h-[343px] rounded-[9px] bg-white p-[32px]">
               <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">
-                <strong>x4</strong> <span className="text-[14px] text-[#aeb9ff]">sur objectif de 6</span>
+                <strong>x{goalsCompleted}</strong> <span className="text-[14px] text-[#aeb9ff]">sur objectif de {WEEKLY_GOAL}</span>
               </h3>
               <p className="mt-[8px] mb-[24px] text-[13px] text-[#777]">Courses hebdomadaire réalisées</p>
               <PieChart
