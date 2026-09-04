@@ -25,7 +25,7 @@
 
 - ~~suivre la convention d'entreprise (suivre ma convention)~~
 - responsive jusqu'en 1024 => 1440
-- créer un service/fichier pour traiter le JSON d'entrée (les statistiques)
+- ~~créer un service/fichier pour traiter le JSON d'entrée (les statistiques)~~
 - mettre des infos du profile dans un Context ? oui
-- utiliser une fonction externe pour sortir fetch de l'effet
+- ~~utiliser une fonction externe pour sortir fetch de l'effet~~
 - bonus : ajouter un loader

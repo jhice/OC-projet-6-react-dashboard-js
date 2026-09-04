@@ -137,16 +137,19 @@ export function toHeartRateData(sessions, { weekStart } = {}) {
   });
 }
 
-/** Sessions de la semaine de la dernière session (« cette semaine »). */
+/**
+ * Sessions de « cette semaine » : la vraie semaine calendaire en cours
+ * (contrairement aux graphes Km/BPM, cette section n'est pas paginable).
+ */
 function getCurrentWeekSessions(sessions) {
   if (!sessions?.length) return [];
-  const weekStart = startOfWeek(getReferenceDate(sessions));
+  const weekStart = startOfWeek(new Date());
   return sessions.filter((s) => isInWeek(parseDate(s.date), weekStart));
 }
 
 /**
- * dataGoals — courses réalisées vs restantes sur la semaine de la dernière
- * session, par rapport à WEEKLY_GOAL.
+ * dataGoals — courses réalisées vs restantes cette semaine (vraie semaine
+ * calendaire en cours), par rapport à WEEKLY_GOAL.
  * -> [{ label: "réalisés", value, fill }, { label: "restants", value, fill }]
  */
 export function toGoalsData(sessions) {
@@ -159,8 +162,8 @@ export function toGoalsData(sessions) {
 }
 
 /**
- * Durée (min) et distance (km) cumulées sur la semaine de la dernière
- * session (« cette semaine », même semaine que toGoalsData).
+ * Durée (min) et distance (km) cumulées cette semaine (même semaine que
+ * toGoalsData).
  * -> { duration: 140, distance: 21.7 }
  */
 export function getWeekStats(sessions) {
@@ -169,5 +172,19 @@ export function getWeekStats(sessions) {
     duration: weekSessions.reduce((sum, s) => sum + s.duration, 0),
     distance: round1(weekSessions.reduce((sum, s) => sum + s.distance, 0)),
   };
+}
+
+/** "23/06/2025", pour l'en-tête "Du ... au ..." de la section "Cette semaine". */
+function formatFullDateFr(date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${day}/${month}/${date.getFullYear()}`;
+}
+
+/** "Du 23/06/2025 au 29/06/2025" — plage de la vraie semaine calendaire en cours. */
+export function getCurrentWeekLabel() {
+  const start = startOfWeek(new Date());
+  const end = addDays(start, 6);
+  return `Du ${formatFullDateFr(start)} au ${formatFullDateFr(end)}`;
 }
 

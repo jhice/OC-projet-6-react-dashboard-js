@@ -4,7 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 import {
   toKmData, toHeartRateData, toGoalsData, WEEKLY_GOAL,
   startOfWeek, addDays, getReferenceDate, getKmRangeLabel, getWeekRangeLabel,
-  getWeekStats,
+  getWeekStats, getCurrentWeekLabel,
 } from '../../services/activity';
 
 // point de départ des widgets de dates des 2 premiers graphes
@@ -150,7 +150,7 @@ function Dashboard() {
 
         <section className="mt-[64px] mb-[120px]">
           <h2 className="m-0 text-[21px] font-normal">Cette semaine</h2>
-          <p className="mt-[7px] text-[15px] text-[#777]">Du 23/06/2025 au 30/06/2025</p>
+          <p className="mt-[7px] text-[15px] text-[#777]">{getCurrentWeekLabel()}</p>
 
           <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
 
