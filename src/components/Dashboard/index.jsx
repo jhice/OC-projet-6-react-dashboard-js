@@ -68,8 +68,8 @@ function Dashboard() {
   // le composant React sera rendu à nouveau après modification de la fenêtre (date)
 
   return (
-    <main className="mx-auto flex w-[1140px] justify-between">
-      <div className="mx-auto flex flex-col w-[1140px] justify-between">
+    <main className="mx-auto flex max-w-[1140px] justify-between p-4">
+      <div className="mx-auto flex flex-col w-full justify-between">
         <section className="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
           <img
             src={profile.profilePicture}
@@ -96,12 +96,11 @@ function Dashboard() {
           <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
 
             <article className="rounded-[9px] bg-white p-[32px]">
-              <div className="flex items-start justify-between mb-[24px]">
+              <div className="flex items-start justify-between">
                 <div>
                   <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">{avgKm}km en moyenne</h3>
-                  <p className="mt-[8px] text-[13px] text-[#777]">Total des kilomètres 4 dernières semaines</p>
                 </div>
-                <div className="flex items-center gap-[7px] pt-[1px] text-[11px] whitespace-nowrap">
+                <div className="flex items-center gap-[7px] pt-[8px] text-[11px] whitespace-nowrap">
                   <button
                     type="button"
                     onClick={goToPrevWeek(setKmWindowEnd)}
@@ -117,7 +116,8 @@ function Dashboard() {
                   >›</button>
                 </div>
               </div>
-              <BarChart style={{ width: "330px", height: "307px", fontSize: "12px" }} responsive data={dataKm}>
+              <p className="mt-[8px] text-[13px] text-[#777] mb-[24px]">Total des kilomètres 4 dernières semaines</p>
+              <BarChart style={{ /*width: "330px",*/ height: "307px", fontSize: "12px" }} responsive={true} data={dataKm}>
                 <CartesianGrid stroke="#f5f5f5" />
                 <Bar dataKey="Km" fill="#B6BDFC" barSize={14} radius={14} />
                 <XAxis dataKey="name" margin="10px" />
@@ -132,7 +132,7 @@ function Dashboard() {
                   <h3 className="m-0 text-[21px] font-normal text-[#f03218]">{avgBpm ?? '–'} BPM</h3>
                   <p className="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
                 </div>
-                <div className="flex items-center gap-[7px] pt-[1px] text-[11px] whitespace-nowrap">
+                <div className="flex items-center gap-[7px] pt-[8px] text-[11px] whitespace-nowrap">
                   <button
                     type="button"
                     onClick={goToPrevWeek(setBpmWeekStart)}
@@ -149,8 +149,8 @@ function Dashboard() {
                 </div>
               </div>
               <ComposedChart
-                style={{ width: "503px", height: "307px", fontSize: "12px" }}
-                responsive
+                style={{ /*width: "503px",*/ height: "307px", fontSize: "12px" }}
+                responsive={true}
                 data={dataBpm}
               >
                 <CartesianGrid stroke="#f5f5f5" />

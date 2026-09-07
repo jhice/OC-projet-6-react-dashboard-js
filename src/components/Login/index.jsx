@@ -37,7 +37,7 @@ function Login() {
   }
 
   return (
-    <main className="mx-auto flex w-[1440px] justify-between">
+    <main className="mx-auto flex w-full justify-between">
       <div className="flex min-h-screen w-full">
 
         <section className="relative min-w-[632px] bg-[#f1f3ff]">

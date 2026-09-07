@@ -22,7 +22,7 @@ function Header() {
   }
 
   return (
-    <header className="flex h-[96px] mb-[104px] w-full items-start justify-between">
+    <header className="flex h-[96px] mb-[104px] max-w-[1140px] mx-auto items-start justify-between p-4">
       <a href="#" className="mt-[38px] flex items-center gap-[5px] no-underline">
         <span className="flex h-[24px] items-center gap-[2px]" aria-hidden="true">
           <img src={logo} alt="" />

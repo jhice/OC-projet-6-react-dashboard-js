@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 function Error404() {
   return (
-    <main className="mx-auto flex w-[1140px] justify-between">
+    <main className="mx-auto flex max-w-[1140px] p-4 justify-between">
       <div className="flex flex-col">
         <h1 className="text-2xl">Oups 🙈 Cette page n'existe pas</h1>
         <p className="mt-[1em]">La page que vous cherchez semble introuvable.</p>
