@@ -15,7 +15,7 @@ function Profile() {
   }
 
   return (
-    <main className="mx-auto flex w-[1140px] justify-between">
+    <main className="flex flex-col lg:flex-row gap-4 w-full justify-between">
       <section className="w-[500px]">
 
         <article className="flex h-[161px] items-center rounded-[10px] bg-white px-[32px]">

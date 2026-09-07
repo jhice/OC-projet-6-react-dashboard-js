@@ -9,11 +9,11 @@ function Layout() {
   const { token, removeToken } = useContext(LoginContext);
 
   return (
-    <>
+    <div className='mx-auto w-[992px] xl:w-[1140px] '>
       <Header removeToken={removeToken} token={token} />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }
 

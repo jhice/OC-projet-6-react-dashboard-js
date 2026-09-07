@@ -103,7 +103,7 @@ export function toKmData(sessions, { weeks = 4, windowEnd } = {}) {
     windowEnd ?? (sessions?.length ? startOfWeek(getReferenceDate(sessions)) : null);
   // console.log(currentWeekStart);
 
-  // équilavent d'une boucle for sur les 4 semaines
+  // équivalent d'une boucle for sur les 4 semaines
   return Array.from({ length: weeks }, (_, i) => {
     // si pas de données
     if (!currentWeekStart) {
@@ -115,7 +115,7 @@ export function toKmData(sessions, { weeks = 4, windowEnd } = {}) {
     const km = sessions
       // on filtre les sessions JSON contenues dans la semaine
       .filter((s) => isInWeek(parseDate(s.date), weekStart))
-      // sommes des kms à aprtir de 0 + les kms des sessions filtrées
+      // sommes des kms à partir de 0 + les kms des sessions filtrées
       .reduce((sum, s) => sum + s.distance, 0);
     // objet attendu par Recharts
     return { name: `S${i + 1}`, Km: round1(km) };
