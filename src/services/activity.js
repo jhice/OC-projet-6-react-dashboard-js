@@ -28,7 +28,9 @@ const round1 = (n) => Math.round(n * 10) / 10;
  * faire glisser le jour de la semaine selon le fuseau.
  */
 function parseDate(iso) {
-  const [year, month, day] = iso.split("-").map(Number);
+  // conversion tableau de chaines en tableau de nombres
+  const [year, month, day] = iso.split("-").map(c => Number(c));
+  // nouvel object date manipulable
   return new Date(year, month - 1, day);
 }
 
@@ -67,13 +69,16 @@ export function formatDateFr(date) {
 
 /** Libellé de la plage affichée par le graphe Km (fenêtre de `weeks` semaines se terminant à `windowEnd`). */
 export function getKmRangeLabel(windowEnd, weeks = 4) {
+  // S1 : on retire 4 semaines en jours
   const start = addDays(windowEnd, -(weeks - 1) * 7);
+  // S4 : on va jusqu'au denrier jour de la semaine
   const end = addDays(windowEnd, 6);
   return `${formatDateFr(start)} - ${formatDateFr(end)}`;
 }
 
 /** Libellé de la plage affichée par le graphe BPM (une semaine commençant à `weekStart`). */
 export function getWeekRangeLabel(weekStart) {
+  // premier jour de la semaine - dernier jour de la semaine
   return `${formatDateFr(weekStart)} - ${formatDateFr(addDays(weekStart, 6))}`;
 }
 
@@ -93,17 +98,26 @@ export function getReferenceDate(sessions) {
  * -> [{ name: "S1", Km: 9 }, ... ] , S1 = la plus ancienne.
  */
 export function toKmData(sessions, { weeks = 4, windowEnd } = {}) {
+  
   const currentWeekStart =
     windowEnd ?? (sessions?.length ? startOfWeek(getReferenceDate(sessions)) : null);
+  // console.log(currentWeekStart);
 
+  // équilavent d'une boucle for sur les 4 semaines
   return Array.from({ length: weeks }, (_, i) => {
+    // si pas de données
     if (!currentWeekStart) {
       return { name: `S${i + 1}`, Km: 0 };
     }
+    // début de la semaine qui correspond à la boucle (de 0 à 3)
     const weekStart = addDays(currentWeekStart, (i - (weeks - 1)) * 7);
+    // cumul des kilomètres de la semaine parcourue
     const km = sessions
+      // on filtre les sessions JSON contenues dans la semaine
       .filter((s) => isInWeek(parseDate(s.date), weekStart))
+      // sommes des kms à aprtir de 0 + les kms des sessions filtrées
       .reduce((sum, s) => sum + s.distance, 0);
+    // objet attendu par Recharts
     return { name: `S${i + 1}`, Km: round1(km) };
   });
 }
@@ -115,19 +129,27 @@ export function toKmData(sessions, { weeks = 4, windowEnd } = {}) {
  * -> [{ name: "Lun", minBpm: 140, maxBpm: 178, averageBpm: 163 }, ... ]
  */
 export function toHeartRateData(sessions, { weekStart } = {}) {
+  // en théorie notre date de départ en dur, donc start = weekStart
   const start =
     weekStart ?? (sessions?.length ? startOfWeek(getReferenceDate(sessions)) : null);
 
+  // pour chaque jour de ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
   return DAY_LABELS.map((name, i) => {
+    // session qui correspond au jour parcouru
     const session =
+      // une date de démarage est nécessaire
       start &&
+      // on va chercher la session qui correspond à l'index du tableau des jours
       sessions?.find(
         (s) => parseDate(s.date).getTime() === addDays(start, i).getTime()
       );
 
+    // si aucune session/journée trouvée
     if (!session) {
+      // on retourne des données valides mais à null pour Recharts
       return { name, minBpm: null, maxBpm: null, averageBpm: null };
     }
+    // données pour la session/journée trouvée
     return {
       name,
       minBpm: session.heartRate.min,
@@ -142,8 +164,10 @@ export function toHeartRateData(sessions, { weekStart } = {}) {
  * (contrairement aux graphes Km/BPM, cette section n'est pas paginable).
  */
 function getCurrentWeekSessions(sessions) {
+  // aucune session
   if (!sessions?.length) return [];
   const weekStart = startOfWeek(new Date());
+  // sessions contenues dans la semaine courante
   return sessions.filter((s) => isInWeek(parseDate(s.date), weekStart));
 }
 
@@ -153,8 +177,9 @@ function getCurrentWeekSessions(sessions) {
  * -> [{ label: "réalisés", value, fill }, { label: "restants", value, fill }]
  */
 export function toGoalsData(sessions) {
+  // nombre de sessions cette semaine
   const done = getCurrentWeekSessions(sessions).length;
-
+  // retour des infos utiles pour Recharts
   return [
     { label: "réalisés", value: Math.min(done, WEEKLY_GOAL), fill: "#0B23F4" },
     { label: "restants", value: Math.max(WEEKLY_GOAL - done, 0), fill: "#B6BDFC" },
@@ -167,9 +192,13 @@ export function toGoalsData(sessions) {
  * -> { duration: 140, distance: 21.7 }
  */
 export function getWeekStats(sessions) {
+  // sessions de la semaine
   const weekSessions = getCurrentWeekSessions(sessions);
+  // données attendues par Recharts
   return {
+    // somme des durées
     duration: weekSessions.reduce((sum, s) => sum + s.duration, 0),
+    // somme des distance (arrondie)
     distance: round1(weekSessions.reduce((sum, s) => sum + s.distance, 0)),
   };
 }
@@ -183,8 +212,10 @@ function formatFullDateFr(date) {
 
 /** "Du 23/06/2025 au 29/06/2025" — plage de la vraie semaine calendaire en cours. */
 export function getCurrentWeekLabel() {
+  // semaine courante
   const start = startOfWeek(new Date());
+  // + 6 jours
   const end = addDays(start, 6);
+  // retour formaté
   return `Du ${formatFullDateFr(start)} au ${formatFullDateFr(end)}`;
 }
-

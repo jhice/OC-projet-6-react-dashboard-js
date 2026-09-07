@@ -16,7 +16,6 @@ const BASE_URL = "http://localhost:8000";
 export async function request(pathOrUrl, { method = "GET", body, token } = {}) {
   // url relative ou absolue
   const url = pathOrUrl.startsWith("http") ? pathOrUrl : `${BASE_URL}${pathOrUrl}`;
-console.log(token);
 
   const headers = {};
   if (body !== undefined) {
@@ -24,7 +23,7 @@ console.log(token);
     headers["Content-Type"] = "application/json";
   }
   if (token) {
-    // ajout Bearer si tokep présent
+    // ajout Bearer si token présent
     headers["Authorization"] = `Bearer ${token}`;
   }
 
