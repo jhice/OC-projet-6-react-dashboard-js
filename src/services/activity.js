@@ -98,7 +98,7 @@ export function getReferenceDate(sessions) {
  * -> [{ name: "S1", Km: 9 }, ... ] , S1 = la plus ancienne.
  */
 export function toKmData(sessions, { weeks = 4, windowEnd } = {}) {
-  
+
   const currentWeekStart =
     windowEnd ?? (sessions?.length ? startOfWeek(getReferenceDate(sessions)) : null);
   // console.log(currentWeekStart);
@@ -218,4 +218,22 @@ export function getCurrentWeekLabel() {
   const end = addDays(start, 6);
   // retour formaté
   return `Du ${formatFullDateFr(start)} au ${formatFullDateFr(end)}`;
+}
+
+/**
+ * calculs pour les données des composants
+ */
+export function getAvgKm(dataKm) {
+  return Math.round(dataKm.reduce((sum, d) => sum + d.Km, 0) / dataKm.length);
+}
+
+export function getBpmAverages(dataBpm) {
+  return dataBpm.map((d) => d.averageBpm).filter((v) => v != null);
+}
+
+export function getAvgBpm(bpmAverages) {
+  return bpmAverages.length
+    ? Math.round(bpmAverages.reduce((sum, v) => sum + v, 0) / bpmAverages.length)
+    // sinon vide
+    : null;
 }

@@ -1,12 +1,19 @@
 import { useContext, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Pie, PieChart, XAxis, YAxis } from 'recharts';
 import { useFetch } from '../../hooks/useFetch';
 import { LoginContext } from '../../utils/context';
 import {
   toKmData, toHeartRateData, toGoalsData, WEEKLY_GOAL,
   startOfWeek, addDays, getReferenceDate, getKmRangeLabel, getWeekRangeLabel,
   getWeekStats, getCurrentWeekLabel,
+  getAvgKm,
+  getBpmAverages,
+  getAvgBpm,
 } from '../../services/activity';
+import Profile from './Profile';
+import ChartKm from './ChartKm';
+import ChartBpm from './ChartBpm';
+import ChartWeek from './ChartWeek';
+import WeekStats from './WeekStats';
 
 // point de départ des widgets de dates des 2 premiers graphes
 const INITIAL_WEEK_START = startOfWeek(new Date(2025, 0, 1));
@@ -45,14 +52,11 @@ function Dashboard() {
   // effectivement affiché dans chaque graphe (donc sensibles à la pagination)
 
   // sommes de kms affichés (dataKm) / nombre de sessions affichées
-  const avgKm = Math.round(dataKm.reduce((sum, d) => sum + d.Km, 0) / dataKm.length);
+  const avgKm = getAvgKm(dataKm);
   // tableau des valeurs de bpm non vides
-  const bpmAverages = dataBpm.map((d) => d.averageBpm).filter((v) => v != null);
+  const bpmAverages = getBpmAverages(dataBpm);
   // si on a des bpms sur cette semaine, sommes des bpms affichés (avgBpm) / nombres de sessions affichées
-  const avgBpm = bpmAverages.length
-    ? Math.round(bpmAverages.reduce((sum, v) => sum + v, 0) / bpmAverages.length)
-    // sinon vide
-    : null;
+  const avgBpm = getAvgBpm(bpmAverages);
 
   // on ne peut pas remonter avant le 1er janvier 2025, ni dépasser la semaine
   // de la session la plus récente disponible dans les données chargées
@@ -67,144 +71,30 @@ function Dashboard() {
     setWindow((current) => (current < latestWeekStart ? addDays(current, 7) : current));
   // le composant React sera rendu à nouveau après modification de la fenêtre (date)
 
+  // propos
+  const chartKmProps = { dataKm, avgKm, setKmWindowEnd, goToPrevWeek, goToNextWeek, getKmRangeLabel, kmWindowEnd, INITIAL_WEEK_START, latestWeekStart };
+  const chartBpmProps = { dataBpm, avgBpm, goToPrevWeek, goToNextWeek, getWeekRangeLabel, bpmWeekStart, setBpmWeekStart, INITIAL_WEEK_START, latestWeekStart };
+  const chartWeekProps = { goalsCompleted, WEEKLY_GOAL, dataGoals };
+
   return (
     <main className="mx-auto flex max-w-[1140px] justify-between p-4">
       <div className="mx-auto flex flex-col w-full justify-between">
-        <section className="flex h-[168px] items-center rounded-[18px] bg-white px-[40px]">
-          <img
-            src={profile.profilePicture}
-            alt={`Photo de profil de ${profile.firstName} ${profile.lastName}`}
-            className="h-[118px] w-[104px] rounded-[9px] object-cover" />
-          <div className="ml-[38px]">
-            <h1 className="m-0 text-[22px] font-normal leading-[1.1]">{profile.firstName} {profile.lastName}</h1>
-            <p className="mt-[6px] text-[15px] text-[#777]">Membre depuis le {profile.createdAt}</p>
-          </div>
-
-          <div className="ml-auto flex items-center gap-[17px]">
-            <span className="text-[14px] text-[#777]">Distance totale parcourue</span>
-            <div className="flex h-[91px] w-[183px] items-center justify-center rounded-[9px] bg-[#1737ee]">
-              <p className="mt-[9px] m-0 text-[23px] text-white">
-                {profile.totalDistance}<span className="ml-[5px] text-[15px]">km</span>
-              </p>
-            </div>
-          </div>
-        </section>
-
+        <Profile profile={profile} />
         <section className="mt-[104px]">
           <h2 className="m-0 text-[21px] font-normal">Vos dernières performances</h2>
-
           <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
-
-            <article className="rounded-[9px] bg-white p-[32px]">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">{avgKm}km en moyenne</h3>
-                </div>
-                <div className="flex items-center gap-[7px] pt-[8px] text-[11px] whitespace-nowrap">
-                  <button
-                    type="button"
-                    onClick={goToPrevWeek(setKmWindowEnd)}
-                    disabled={kmWindowEnd <= INITIAL_WEEK_START}
-                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
-                  >‹</button>
-                  <span>{getKmRangeLabel(kmWindowEnd)}</span>
-                  <button
-                    type="button"
-                    onClick={goToNextWeek(setKmWindowEnd)}
-                    disabled={kmWindowEnd >= latestWeekStart}
-                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
-                  >›</button>
-                </div>
-              </div>
-              <p className="mt-[8px] text-[13px] text-[#777] mb-[24px]">Total des kilomètres 4 dernières semaines</p>
-              <BarChart style={{ /*width: "330px",*/ height: "307px", fontSize: "12px" }} responsive={true} data={dataKm}>
-                <CartesianGrid stroke="#f5f5f5" />
-                <Bar dataKey="Km" fill="#B6BDFC" barSize={14} radius={14} />
-                <XAxis dataKey="name" margin="10px" />
-                <YAxis width="auto" niceTicks="snap125" />
-                <Legend />
-              </BarChart>
-            </article>
-
-            <article className="rounded-[9px] bg-white p-[32px]">
-              <div className="flex items-start justify-between mb-[24px]">
-                <div>
-                  <h3 className="m-0 text-[21px] font-normal text-[#f03218]">{avgBpm ?? '–'} BPM</h3>
-                  <p className="mt-[8px] text-[13px] text-[#777]">Fréquence cardiaque moyenne</p>
-                </div>
-                <div className="flex items-center gap-[7px] pt-[8px] text-[11px] whitespace-nowrap">
-                  <button
-                    type="button"
-                    onClick={goToPrevWeek(setBpmWeekStart)}
-                    disabled={bpmWeekStart <= INITIAL_WEEK_START}
-                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
-                  >‹</button>
-                  <span>{getWeekRangeLabel(bpmWeekStart)}</span>
-                  <button
-                    type="button"
-                    onClick={goToNextWeek(setBpmWeekStart)}
-                    disabled={bpmWeekStart >= latestWeekStart}
-                    className="h-[20px] w-[20px] rounded-full border border-[#999] text-[#555] disabled:opacity-40"
-                  >›</button>
-                </div>
-              </div>
-              <ComposedChart
-                style={{ /*width: "503px",*/ height: "307px", fontSize: "12px" }}
-                responsive={true}
-                data={dataBpm}
-              >
-                <CartesianGrid stroke="#f5f5f5" />
-                <XAxis dataKey="name" scale="band" />
-                <YAxis width="auto" niceTicks="snap125" />
-                <Bar dataKey="minBpm" barSize={14} radius={14} fill="#FCC1B6" />
-                <Bar dataKey="maxBpm" barSize={14} radius={14} fill="#F4320B" />
-                <Line type="monotone" dataKey="averageBpm" stroke="#0B23F4" strokeWidth={3}
-                  dot={{ fill: "#F2F3FF", strokeWidth: 2, r: 5 }} activeDot={false} />
-                <Legend />
-              </ComposedChart>
-            </article>
+            <ChartKm props={chartKmProps} />
+            <ChartBpm props={chartBpmProps} />
           </div>
         </section>
-
         <section className="mt-[64px] mb-[120px]">
           <h2 className="m-0 text-[21px] font-normal">Cette semaine</h2>
           <p className="mt-[7px] text-[15px] text-[#777]">{getCurrentWeekLabel()}</p>
 
           <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">
-
-            <article className="h-[343px] rounded-[9px] bg-white p-[32px]">
-              <h3 className="m-0 text-[21px] font-normal text-[#1737ee]">
-                <strong>x{goalsCompleted}</strong> <span className="text-[14px] text-[#aeb9ff]">sur objectif de {WEEKLY_GOAL}</span>
-              </h3>
-              <p className="mt-[8px] mb-[24px] text-[13px] text-[#777]">Courses hebdomadaire réalisées</p>
-              <PieChart
-                style={{ width: '306px', height: '190px' }}
-                responsive
-              >
-                <Pie
-                  data={dataGoals}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius="40%"
-                  outerRadius="83%"
-                  stroke="none"
-                  labelLine={false}
-                  label={CustomizedLabel}
-                  isAnimationActive={true}
-                />
-              </PieChart>
-            </article>
-
+            <ChartWeek props={chartWeekProps} />
             <div className="flex flex-col gap-[16px]">
-              <article className="rounded-[9px] bg-white px-[30px] py-[21px]">
-                <p className="m-0 text-[13px] text-[#777]">Durée d’activité</p>
-                <p className="mt-[10px] m-0 text-[20px] text-[#1737ee]">{weekStats.duration} <span className="text-[14px] text-[#aeb9ff]">minutes</span></p>
-              </article>
-              <article className="rounded-[9px] bg-white px-[30px] py-[21px]">
-                <p className="m-0 text-[13px] text-[#777]">Distance</p>
-                <p className="mt-[10px] m-0 text-[20px] text-[#f03218]">{weekStats.distance} <span className="text-[14px] text-[#f7b7ac]">kilomètres</span></p>
-              </article>
+              <WeekStats weekStats={weekStats} />
             </div>
           </div>
         </section>
@@ -212,18 +102,5 @@ function Dashboard() {
     </main>
   );
 }
-
-// Source - https://stackoverflow.com/a/45812427
-// Posted by CharukaK, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-08-25, License - CC BY-SA 4.0
-
-const CustomizedLabel = ({ x, y, label, value, fill }) => {
-  return (
-    <>
-      <circle r="4" cx={x - 30} cy={y + 1} fill={fill} />
-      <text x={x} y={y} dy={5} fill="#707070" fontSize={10} textAnchor="middle"> {value} {label}</text>
-    </>
-  );
-};
 
 export default Dashboard;

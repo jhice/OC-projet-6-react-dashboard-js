@@ -24,10 +24,10 @@
 @todo
 
 - ~~suivre la convention d'entreprise (suivre ma convention)~~
-- responsive jusqu'en 1024 => 1440
-  - surtout valable pour le dashboard (gérer le rétrécissement jusqu'à 1024)
-- 1 composant par chart + le code associé
-  - ou les 2 charts ensemble, à voir
+- ~~responsive jusqu'en 1024 => 1440~~
+  - ~~surtout valable pour le dashboard (gérer le rétrécissement jusqu'à 1024)~~
+- ~~1 composant par chart + le code associé~~
+  - ~~ou les 2 charts ensemble, à voir~~
 - ~~créer un service/fichier pour traiter le JSON d'entrée (les statistiques)~~
 - ~~mettre des infos du profile dans un Context ? oui~~
 - ~~utiliser une fonction externe pour sortir fetch de l'effet~~
