@@ -40,9 +40,9 @@ function Login() {
     <main className="mx-auto flex w-full justify-between">
       <div className="flex min-h-screen w-full">
 
-        <section className="relative min-w-[632px] bg-[#f1f3ff]">
+        <section className="w-[50%] h-[93vh] bg-[#f1f3ff] flex flex-col justify-evenly items-center">
 
-          <div className="relative left-[100px] top-[54px] flex items-center gap-[5px]">
+          <div className="flex items-center gap-[5px] w-[398px]">
             <div className="flex items-center gap-[2px] h-[24px]" aria-hidden="true">
               <span className="w-[3px] h-[17px] rounded-full bg-[#ff5a52]"></span>
               <span className="w-[3px] h-[21px] rounded-full bg-[#ff5a52]"></span>
@@ -55,7 +55,7 @@ function Login() {
             </span>
           </div>
 
-          <section className="relative left-[100px] top-[180px] w-[398px] h-[617px] rounded-[18px] bg-white px-[40px] pt-[39px] shadow-none">
+          <section className="rounded-[18px] bg-white shadow-none w-[398px] p-8">
 
             <h1 className="m-0 text-[29px] leading-[1.15] font-bold tracking-[-0.7px] text-[#1737ee]">
               Transformez<br />
@@ -98,7 +98,7 @@ function Login() {
 
               <a
                 href="#"
-                className="mt-[41px] inline-block text-[15px] text-[#171717] no-underline hover:underline"
+                className="mt-[1em] inline-block text-[15px] text-[#171717] no-underline hover:underline"
               >
                 Mot de passe oublié ?
               </a>

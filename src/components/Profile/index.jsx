@@ -35,7 +35,7 @@ function Profile() {
           </div>
         </article>
 
-        <article className="mt-[16px] h-[325px] rounded-[10px] bg-white px-[28px] pt-[39px]">
+        <article className="mt-[16px] mb-[6rem] h-[325px] rounded-[10px] bg-white px-[28px] pt-[39px]">
 
           <h2 className="m-0 text-[24px] font-normal">
             Votre profil
