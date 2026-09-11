@@ -17,13 +17,7 @@ const LoginProvider = ({ children }) => {
         getUserInfo(token)
             .then((data) => {
                 if (cancelled) return;
-                setProfile({
-                    firstName: data.profile.firstName,
-                    lastName: data.profile.lastName,
-                    createdAt: data.profile.createdAt,
-                    totalDistance: data.statistics.totalDistance,
-                    profilePicture: data.profile.profilePicture,
-                });
+                setProfile(data);
             })
             .catch(() => {
                 if (!cancelled) setProfile(null);

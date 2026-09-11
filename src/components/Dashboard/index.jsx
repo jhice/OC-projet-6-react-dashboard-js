@@ -21,6 +21,8 @@ const INITIAL_WEEK_START = startOfWeek(new Date(2025, 0, 1));
 function Dashboard() {
 
   const { profile } = useContext(LoginContext);
+  // console.log(profile);
+  
   // l'API charge toutes les données d'un coup (2 ans)
   const { data, error } = useFetch(`http://localhost:8000/api/user-activity?startWeek=2025-01-01&endWeek=2026-12-31`);
 
@@ -33,7 +35,7 @@ function Dashboard() {
   }
 
   if (!data || !profile) {
-    return <p>Loading...</p>;
+    return <p className='text-center text-[24px] pt-20'>Loading...</p>;
   }
 
   // data = tableau de sessions (cf. public/activity_sessions.json)
@@ -79,7 +81,7 @@ function Dashboard() {
   return (
     <main className="mx-auto flex max-w-[1140px] justify-between p-4">
       <div className="mx-auto flex flex-col w-full justify-between">
-        <Profile profile={profile} />
+        <Profile userData={profile} />
         <section className="mt-[104px]">
           <h2 className="m-0 text-[21px] font-normal">Vos dernières performances</h2>
           <div className="mt-[21px] grid grid-cols-[0.77fr_1fr] gap-[24px]">

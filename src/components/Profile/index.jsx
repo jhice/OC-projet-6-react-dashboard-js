@@ -1,28 +1,32 @@
-import { useFetch } from "../../hooks/useFetch";
+import { useContext } from "react";
+import { LoginContext } from "../../utils/context";
 
 function Profile() {
 
   // le state de data est suivi depuis useEffect() ?
-  const { data, error } = useFetch(`http://localhost:8000/api/user-info`);
+  // const { data, error } = useFetch(`http://localhost:8000/api/user-info`);
   // console.log(data);
 
-  if (error) {
-    return <span>Il y a un problème</span>;
-  }
+  // if (error) {
+  //   return <span>Il y a un problème</span>;
+  // }
+  
+  // if (!data) {
+  //   return <p>Loading...</p>;
+  // }
 
-  if (!data) {
-    return <p>Loading...</p>;
-  }
+  const { profile: data } = useContext(LoginContext);
+  // console.log(data);
 
   return (
     <main className="flex gap-4 max-w-[1140px] mx-auto justify-between p-4">
       <section className="w-[500px]">
 
-        <article className="flex h-[161px] items-center rounded-[10px] bg-white px-[32px]">
+        <article className="flex h-[168px] items-center rounded-[10px] bg-white px-[32px]">
           <img
             src={data.profile.profilePicture}
             alt={`Photo de profil de ${data.profile.firstName} ${data.profile.lastName}`}
-            className="h-[114px] w-[102px] rounded-[9px] object-cover"
+            className="h-[118px] w-[104px] rounded-[9px] object-cover"
           />
 
           <div className="ml-[25px]">
